@@ -1,0 +1,10 @@
+-fix the prompt of xcel files ,it's trying to executr quries on files
+-after fixing and handling files correctly fic db connection code
+-make the code efficient and make sure the file_data is always not going to ai make a way to store it to reduce the read request to db --do it for all routes try to reduce r/w from or to db
+-replace or remove dataset on ui feature and mange the active dataset when replaced or deleted and added a new file
+-add loading states on ui
+
+--introduce system prompt (d0ne)  
+--encrypt the mognostrind in db before saving in db
+-add memory to the ai
+--query lang selsction modifiy the button to the button between normal chat with ai or db chat  
