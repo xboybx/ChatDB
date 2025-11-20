@@ -10,6 +10,8 @@ import {
   Moon,
   MoreVertical,
   Paperclip,
+  Menu,
+  X,
 } from "lucide-react";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import { ChatMessage } from "@/components/ChatMessage";
@@ -33,6 +35,9 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [queryLanguage, setQueryLanguage] = useState("auto");
   const [showUploadDialog, setShowUploadDialog] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
+    useState(false);
   const [activeDataset, setActiveDataset] = useState(null);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -234,17 +239,101 @@ export default function Home() {
     adjustTextareaHeight();
   }, [inputValue]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      <ChatSidebar
-        conversations={conversations}
-        activeConversationId={activeConversationId}
-        onSelectConversation={setActiveConversationId}
-        onNewConversation={handleNewConversation}
-        onDeleteConversation={handleDeleteConversation}
-      />
+      {/* Sidebar for desktop */}
+      <div
+        className={`hidden md:block transition-all duration-300 ease-in-out ${
+          isDesktopSidebarCollapsed ? "w-20" : "w-64"
+        }`}
+      >
+        <ChatSidebar
+          conversations={conversations}
+          activeConversationId={activeConversationId}
+          onSelectConversation={setActiveConversationId}
+          onNewConversation={handleNewConversation}
+          onDeleteConversation={handleDeleteConversation}
+          isCollapsed={isDesktopSidebarCollapsed}
+          onToggleCollapse={() =>
+            setIsDesktopSidebarCollapsed(!isDesktopSidebarCollapsed)
+          }
+        />
+      </div>
+
+      {/* Sidebar for mobile (overlay) */}
+      {isSidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-20">
+          <div
+            className="absolute inset-0 bg-black/50"
+            onClick={() => setIsSidebarOpen(false)}
+          ></div>
+          <div className="relative w-64 h-full">
+            <ChatSidebar
+              conversations={conversations}
+              activeConversationId={activeConversationId}
+              onSelectConversation={(id) => {
+                setActiveConversationId(id);
+                setIsSidebarOpen(false);
+              }}
+              onNewConversation={handleNewConversation}
+              onDeleteConversation={handleDeleteConversation}
+            />
+          </div>
+        </div>
+      )}
 
       <div className="flex-1 flex flex-col relative">
+        {/* Header for mobile */}
+        <div className="md:hidden flex items-center justify-between p-2 border-b border-[hsl(var(--border))]">
+          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+            {isSidebarOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+          <h2 className="text-lg font-semibold">Chat</h2>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
+                <MoreVertical className="w-5 h-5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                <Upload className="w-4 h-4 mr-2" />
+                Upload File
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                <Database className="w-4 h-4 mr-2" />
+                Connect Database
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={toggleTheme}>
+                {theme === "dark" ? (
+                  <Sun className="w-4 h-4 mr-2" />
+                ) : (
+                  <Moon className="w-4 h-4 mr-2" />
+                )}
+                {theme === "dark" ? "Light" : "Dark"} Mode
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+
         {/* Chat messages area */}
         <div className="flex-1 overflow-y-auto">
           {isLoading ? (
@@ -364,7 +453,7 @@ export default function Home() {
             <div className="relative flex items-end gap-2 bg-[hsl(var(--message-assistant))] border border-[hsl(var(--input-border))] rounded-3xl px-4 py-3 shadow-sm">
               <button
                 onClick={() => setShowUploadDialog(true)}
-                className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors"
+                className="hidden md:flex flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors"
               >
                 <Paperclip className="w-5 h-5" />
               </button>
@@ -381,46 +470,48 @@ export default function Home() {
                 disabled={isThinking}
               />
 
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
-                    <Settings className="w-5 h-5" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
-                    <Upload className="w-4 h-4 mr-2" />
-                    Upload File
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
-                    <Database className="w-4 h-4 mr-2" />
-                    Connect Database
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() =>
-                      setQueryLanguage(
-                        queryLanguage === "auto"
-                          ? "sql"
-                          : queryLanguage === "sql"
-                          ? "mongodb"
-                          : "auto"
-                      )
-                    }
-                  >
-                    <Settings className="w-4 h-4 mr-2" />
-                    Query: {queryLanguage}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={toggleTheme}>
-                    {theme === "dark" ? (
-                      <Sun className="w-4 h-4 mr-2" />
-                    ) : (
-                      <Moon className="w-4 h-4 mr-2" />
-                    )}
-                    {theme === "dark" ? "Light" : "Dark"} Mode
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="hidden md:flex items-center">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
+                      <Settings className="w-5 h-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                      <Upload className="w-4 h-4 mr-2" />
+                      Upload File
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                      <Database className="w-4 h-4 mr-2" />
+                      Connect Database
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() =>
+                        setQueryLanguage(
+                          queryLanguage === "auto"
+                            ? "sql"
+                            : queryLanguage === "sql"
+                            ? "mongodb"
+                            : "auto"
+                        )
+                      }
+                    >
+                      <Settings className="w-4 h-4 mr-2" />
+                      Query: {queryLanguage}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={toggleTheme}>
+                      {theme === "dark" ? (
+                        <Sun className="w-4 h-4 mr-2" />
+                      ) : (
+                        <Moon className="w-4 h-4 mr-2" />
+                      )}
+                      {theme === "dark" ? "Light" : "Dark"} Mode
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
 
               <button
                 onClick={handleSendMessage}

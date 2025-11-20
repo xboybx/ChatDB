@@ -27,7 +27,7 @@ export default function LandingPage() {
           />
 
           {/* Content */}
-          <div className="max-w-3xl mx-auto text-center relative z-10">
+          <div className="max-w-3xl mx-auto text-center relative z-10 px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -35,7 +35,7 @@ export default function LandingPage() {
             >
               {/* Logo/Title */}
               <motion.h1
-                className="text-5xl md:text-6xl font-semibold text-gray-900 mb-6 tracking-tight"
+                className="text-4xl sm:text-5xl md:text-6xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 tracking-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
@@ -45,7 +45,7 @@ export default function LandingPage() {
 
               {/* Subtitle */}
               <motion.p
-                className="text-xl md:text-2xl text-gray-600 mb-12 leading-relaxed font-light"
+                className="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-8 sm:mb-12 leading-relaxed font-light"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -58,7 +58,7 @@ export default function LandingPage() {
               {/* CTA Button */}
               <motion.button
                 onClick={handleGetStarted}
-                className="bg-gray-900 text-white px-8 py-4 rounded-lg text-lg font-medium hover:bg-gray-800 transition-colors shadow-sm"
+                className="bg-gray-900 dark:bg-white dark:text-gray-900 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors shadow-sm"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
@@ -70,15 +70,15 @@ export default function LandingPage() {
 
               {/* Minimal feature hints */}
               <motion.div
-                className="mt-16 flex flex-wrap justify-center gap-8 text-sm text-gray-400"
+                className="mt-12 sm:mt-16 flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-gray-500 dark:text-gray-400"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
               >
                 <span>PDF • Excel • CSV</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>Database Connections</span>
-                <span>•</span>
+                <span className="hidden sm:inline">•</span>
                 <span>AI-Powered</span>
               </motion.div>
             </motion.div>
