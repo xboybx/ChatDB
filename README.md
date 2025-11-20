@@ -1,6 +1,8 @@
 # AI-Driven Data Query Web App
 
-A full-stack web application that allows users to interact with their data through natural language, powered by Gemini AI. Upload Excel/CSV files or connect to MongoDB/SQL databases and ask questions in plain English.
+The AI Data Query Assistant is a web-based application that allows users to ask questions about their data in natural language. Users can either upload a file (CSV or Excel) or connect to a database (PostgreSQL or MongoDB). The application then uses a powerful AI model (Gemini-Pro) to understand the user's question, generate a query, and return a human-readable answer.
+
+The application is built with Next.js, a popular React framework, and uses Supabase for its backend infrastructure, including database storage and authentication..
 
 ## Features
 
