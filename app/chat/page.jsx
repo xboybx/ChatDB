@@ -479,7 +479,7 @@ export default function Home() {
                       directly in the chat.
                     </li>
                     <li className="flex gap-2  items-center">
-                      change theme by clicking
+                      change theme by clicking <Settings size={20} />
                     </li>
                   </ul>
                 </div>
