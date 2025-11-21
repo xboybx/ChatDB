@@ -25,9 +25,9 @@ export function ChatMessage({ message }) {
   }, [isCopied]);
 
   return (
-    <div className={`flex items-start gap-2 sm:gap-4 px-2 sm:px-4 py-6 ${isUser ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex items-start gap-2 sm:gap-4 px-2 sm:px-4 py-6 ${isUser ? 'justify-end' : 'justify-start'} `}>
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg">
+        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center  bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg ">
           <BrainCog className="w-5 h-5 text-[#4DB33D] dark:text-white" />
         </div>
       )}

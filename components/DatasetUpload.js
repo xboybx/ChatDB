@@ -71,12 +71,12 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="w-[90vw] sm:w-full sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Add Data Source</DialogTitle>
         </DialogHeader>
-        <Tabs defaultValue="file">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="file" className=' flex flex-col gap-4'>
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2">
             <TabsTrigger value="file" disabled={isConnecting}>
               <Upload className="w-4 h-4 mr-2" /> Upload
             </TabsTrigger>
@@ -91,7 +91,7 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
               </div>
             ) : (
               <>
-                <Label>Excel or CSV or PDF or DOCX</Label>
+                <Label className='text-xs hidden lg:block'>Excel or CSV or PDF or DOCX</Label>
                 <Input
                   type="file"
                   accept=".xlsx,.xls,.csv,.pdf,.docx"
@@ -108,7 +108,7 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
               <select
                 value={dbType}
                 onChange={(e) => setDbType(e.target.value)}
-                className="w-full border rounded p-2 mt-2 dark:text-black text-black"
+                className="w-full border rounded p-2 mt-2"
                 disabled={isFileUploading || isConnecting}
               >
                 <option value="sql">SQL</option>

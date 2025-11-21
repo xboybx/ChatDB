@@ -253,7 +253,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-full overflow-hidden bg-background">
       {/* Sidebar for desktop */}
       <div
         className={`hidden md:block transition-all duration-300 ease-in-out ${
@@ -295,9 +295,9 @@ export default function Home() {
         </div>
       )}
 
-      <div className="flex-1 flex flex-col relative">
+      <div className="flex-1 flex flex-col relative overflow-hidden">
         {/* Header for mobile */}
-        <div className="md:hidden flex items-center justify-between p-2 border-b border-[hsl(var(--border)))]">
+        <div className="md:hidden flex items-center justify-between p-2 border-b  border-[hsl(var(--border)))]">
           <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             {isSidebarOpen ? (
               <X className="w-6 h-6" />
@@ -335,65 +335,67 @@ export default function Home() {
         </div>
 
         {/* Header for desktop */}
-        <div className="hidden md:flex items-center justify-between p-2 px-4 font-mono border-b border-[hsl(var(--border)))]">
-          <h2 className=" font-semibold flex items-center justify-center ">
-            File & DB chat
-          </h2>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
-                <MoreVertical className="w-5 h-5" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
-                <Upload className="w-4 h-4 mr-2" />
-                Upload File
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
-                <Database className="w-4 h-4 mr-2" />
-                Connect Database
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() =>
-                  setQueryLanguage(
-                    queryLanguage === "auto"
-                      ? "sql"
-                      : queryLanguage === "sql"
-                      ? "mongodb"
-                      : "auto"
-                  )
-                }
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Query: {queryLanguage}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={toggleTheme}>
-                {theme === "dark" ? (
-                  <Sun className="w-4 h-4 mr-2" />
-                ) : (
-                  <Moon className="w-4 h-4 mr-2" />
-                )}
-                {theme === "dark" ? "Light" : "Dark"} Mode
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+        <div className="flex items-center justify-center pt-4">
+          <div className="hidden md:flex w-1/2 rounded-3xl items-center justify-between p-2 px-4  border-b border-[hsl(var(--border)))] bg-transparent">
+            <h2 className=" font-semibold flex items-center justify-center ">
+              File & DB chat
+            </h2>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
+                  <MoreVertical className="w-5 h-5" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Upload File
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
+                  <Database className="w-4 h-4 mr-2" />
+                  Connect Database
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() =>
+                    setQueryLanguage(
+                      queryLanguage === "auto"
+                        ? "sql"
+                        : queryLanguage === "sql"
+                        ? "mongodb"
+                        : "auto"
+                    )
+                  }
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Query: {queryLanguage}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={toggleTheme}>
+                  {theme === "dark" ? (
+                    <Sun className="w-4 h-4 mr-2" />
+                  ) : (
+                    <Moon className="w-4 h-4 mr-2" />
+                  )}
+                  {theme === "dark" ? "Light" : "Dark"} Mode
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
 
         {/* Chat messages area */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto  p-4">
           {isLoading ? (
             <div className="flex items-center justify-center h-full">
               Loading..
             </div>
           ) : messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full px-4">
+            <div className="flex flex-col items-center justify-center h-full px-4 ">
               <div className="max-w-2xl w-full text-center space-y-6">
-                <h1 className="text-4xl font-semibold">
+                <h1 className="text-xl  font-semibold">
                   AI Data Query Assistant
                 </h1>
-                <p className="text-[hsl(var(--foreground))] opacity-70">
+                <p className="text-[hsl(var(--foreground))] opacity-70 hidden lg:block">
                   Upload a file or connect to a database to start asking
                   questions about your data
                 </p>
@@ -434,7 +436,7 @@ export default function Home() {
                     </div>
                   </button>
                 </div>
-                <div className="text-xs text-left opacity-60 mt-4 max-w-2xl mx-auto">
+                <div className="text-xs text-left opacity-60 mt-4 max-w-2xl mx-auto ">
                   <p className="font-medium mb-2">How to use the app:</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>
@@ -495,12 +497,12 @@ export default function Home() {
         </div>
 
         {/* Input area */}
-        <div className="border-t border-[hsl(var(--border))] bg-background">
+        <div className="  bg-background ">
           <div className="max-w-3xl mx-auto px-4 py-4">
             <div className="relative flex items-end gap-2 bg-[hsl(var(--message-assistant))] border border-[hsl(var(--input-border))] rounded-3xl px-4 py-3 shadow-sm">
               <button
                 onClick={() => setShowUploadDialog(true)}
-                className="hidden md:flex flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors"
+                className="hidden md:flex flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors "
               >
                 <Paperclip className="w-5 h-5" />
               </button>
@@ -517,10 +519,12 @@ export default function Home() {
                 disabled={isThinking}
               />
 
-              <div className="hidden md:flex items-center">
+              <div className="flex items-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors"></button>
+                    <button className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
+                      <Settings className="w-5 h-5" />
+                    </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
