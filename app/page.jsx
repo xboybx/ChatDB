@@ -15,7 +15,9 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-transparent flex items-center justify-center px-6 relative overflow-hidden">
       {isLoading ? (
-        <div className="flex gap-2">Setting Up...</div>
+        <div className="flex gap-2 bg-gradient-to-r from-black via-white to-black bg-200% bg-clip-text  text-transparent animate-gradient-loader [text-fill-color:transparent] [-webkit-text-fill-color:transparent][-webkit-background-clip:text]">
+          Setting Up...
+        </div>
       ) : (
         <>
           {/* Background Image */}

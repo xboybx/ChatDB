@@ -12,6 +12,7 @@ import {
   Paperclip,
   Menu,
   X,
+  Plus,
 } from "lucide-react";
 import { ChatSidebar } from "@/components/ChatSidebar";
 import { ChatMessage } from "@/components/ChatMessage";
@@ -385,19 +386,18 @@ export default function Home() {
 
         {/* Chat messages area */}
         <div className="flex-1 overflow-y-auto  p-4">
-          {isLoading ? (
-            <div className="flex items-center justify-center h-full">
-              Loading..
-            </div>
-          ) : messages.length === 0 ? (
+          {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full px-4 ">
               <div className="max-w-2xl w-full text-center space-y-6">
                 <h1 className="text-xl  font-semibold">
                   AI Data Query Assistant
                 </h1>
+
                 <p className="text-[hsl(var(--foreground))] opacity-70 hidden lg:block">
-                  Upload a file or connect to a database to start asking
-                  questions about your data
+                  Start a new Chat{" "}
+                  <span className="text-3xl text-white">+</span> & Upload a file
+                  or connect to a database to start asking questions about your
+                  data
                 </p>
 
                 {activeDataset && (
