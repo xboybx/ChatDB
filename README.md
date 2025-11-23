@@ -4,7 +4,7 @@ The AI Data Query Assistant is a web-based application that allows users to ask 
 
 The application is built with Next.js, a popular React framework, and uses Supabase for its backend infrastructure, including database storage.
 
-![Demo](https://ik.imagekit.io/mtkm3escy/ChatDB%20DEMO.gif)
+![Demo](public/demo.gif)
 [***Live Demo***](https://chatdb-p4zb.onrender.com/)
 
 ## Features
