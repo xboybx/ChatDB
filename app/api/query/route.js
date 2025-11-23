@@ -195,7 +195,7 @@ export async function POST(request) {
     else if (dataset.type === 'sql') {
       // const tables = dataset.schema_info.tables || [];
       const sampleTable = dataset.schema_info;
-      console.log("Sample Table from schema_info:", JSON.stringify(sampleTable));
+      // console.log("Sample Table from schema_info:", JSON.stringify(sampleTable))
       // const columns = dataset.schema_info.columns || [];
 
       prompt = `You are an AI assistant that generates database queries. Based on the user's question and the provided database schema, generate the appropriate query. Do not execute the query. Only return the query command itself.
@@ -224,7 +224,7 @@ export async function POST(request) {
 
     else if (dataset.type === 'mongodb') {
       const sampleTable = dataset.schema_info;
-      console.log("Sample Table from schema_info:", JSON.stringify(sampleTable));
+      // console.log("Sample Table from schema_info:", JSON.stringify(sampleTable));
 
       prompt = `You are an AI assistant that generates database queries. Based on the user's question and the provided database schema, generate the appropriate query. Do not execute the query. Only return the query command itself.
                 You will be given a Sample Table and this is the information Schmea of a databse in the object format -that is extracted from a function and saved in the

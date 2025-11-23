@@ -76,6 +76,10 @@ body,
 @layer components {
   .chat-message {
     @apply text-[15px] leading-7;
+
+    p {
+      margin-bottom: 1rem;
+    }
   }
 
   .sidebar-link {

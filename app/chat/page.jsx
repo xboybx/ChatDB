@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   Send,
   Upload,
@@ -14,11 +14,28 @@ import {
   X,
   Plus,
 } from "lucide-react";
-import { ChatSidebar } from "@/components/ChatSidebar";
-import { ChatMessage } from "@/components/ChatMessage";
-import { ThinkingIndicator } from "@/components/ThinkingIndicator";
-import { DatasetUpload } from "@/components/DatasetUpload";
+const ChatSidebar = dynamic(
+  () => import("@/components/ChatSidebar").then((mod) => mod.ChatSidebar),
+  { ssr: false }
+);
+const ChatMessage = dynamic(
+  () => import("@/components/ChatMessage").then((mod) => mod.ChatMessage),
+  { ssr: false }
+);
+const ThinkingIndicator = dynamic(
+  () =>
+    import("@/components/ThinkingIndicator").then(
+      (mod) => mod.ThinkingIndicator
+    ),
+  { ssr: false }
+);
 import { useTheme } from "@/components/ThemeProvider";
+import dynamic from "next/dynamic";
+
+const DatasetUpload = dynamic(
+  () => import("@/components/DatasetUpload").then((mod) => mod.DatasetUpload),
+  { ssr: false }
+);
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,7 +84,7 @@ export default function Home() {
   }, [activeConversationId]);
 
   //function to load conversations from backend api in chat side bar
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
     setIsLoading(true);
     try {
       const response = await fetch("/api/conversations");
@@ -85,7 +102,7 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [activeConversationId]);
   //function to load messages of a conversation from backend api in the chat area
   const loadMessages = async (conversationId) => {
     setIsLoading(true);

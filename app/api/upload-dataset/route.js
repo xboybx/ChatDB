@@ -34,7 +34,7 @@ export async function POST(request) {
     //  reads the entire file content into a variable called buffer. 
     // This is where your actual file data resides on the server
     const buffer = await file.arrayBuffer();
-    console.log('File buffer received on server (first 50 bytes):', buffer.slice(0, 50));
+    // console.log('File buffer received on server (first 50 bytes):', buffer.slice(0, 50));
     const fileExtension = file.name.split('.').pop().toLowerCase();
 
 
@@ -86,7 +86,7 @@ export async function POST(request) {
       const worksheet = workbook.Sheets[sheetName];
 
       parsedData = xlsx.utils.sheet_to_json(worksheet);
-      console.log('Parsed data on server (first 5 rows):', parsedData.slice(0, 5))
+      // console.log('Parsed data on server (first 5 rows):', parsedData.slice(0, 5))
 
       if (parsedData.length === 0) {
         throw new Error('Excel file is empty');
@@ -148,7 +148,7 @@ export async function POST(request) {
       ])
       .select()
       .single();
-    console.log('Dataset uploaded Sucessfully', 'Error:', error);
+    // console.log('Dataset uploaded Sucessfully', 'Error:', error);
 
     if (error) throw error;
 
