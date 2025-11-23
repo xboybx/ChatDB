@@ -24,7 +24,8 @@ export default function LandingPage() {
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat bg-opacity-25 opacity-90 backdrop-blur-3xl"
             style={{
-              backgroundImage: "url('/landingImage.png')",
+              backgroundImage:
+                "url('https://ik.imagekit.io/mtkm3escy/Screenshot%20(257).png?updatedAt=1763832387191')",
             }}
           />
 
