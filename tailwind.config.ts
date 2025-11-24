@@ -16,9 +16,13 @@ const config: Config = {
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
+        md: 'calc(var(--radius) - 2px)',  
         sm: 'calc(var(--radius) - 4px)',
       },
+      fontFamily: {
+        sans: ['var(--font-fredoka)'],
+      },
+      mono: ['var(--font-azeret-mono)'],
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

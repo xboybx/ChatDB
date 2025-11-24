@@ -27,7 +27,7 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
       const res = await fetch('/api/upload-dataset', { method: 'POST', body: formData });
       const data = await res.json();
       if (data.success) {
-        onDatasetAdded(data.dataset);
+        onDatasetAdded(data.dataset, 'file');
         onClose();
       } else {
         alert(data.error || 'Upload failed');
@@ -55,7 +55,7 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
       const data = await res.json();
 
       if (data.success) {
-        onDatasetAdded(data.dataset);
+        onDatasetAdded(data.dataset, 'database');
         onClose();
         setConnStr('');
       } else {
@@ -102,13 +102,13 @@ export function DatasetUpload({ open, onClose, onDatasetAdded, conversationId })
               </>
             )}
           </TabsContent>
-          <TabsContent value="db" className="space-y-4">
+          <TabsContent value="db" className="space-y-4 ">
             <div>
               <Label>Type</Label>
               <select
                 value={dbType}
                 onChange={(e) => setDbType(e.target.value)}
-                className="w-full border rounded p-2 mt-2"
+                className="w-full border rounded p-2 mt-2  dark:bg-[#1111]"
                 disabled={isFileUploading || isConnecting}
               >
                 <option value="sql">SQL</option>

@@ -1,25 +1,21 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import {
+  getConversations,
+  createConversation,
+  deleteConversation,
+} from '../../../lib/database';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
 
 export const dynamic = 'force-dynamic';
 
+
+//Route to Get all Conversations from the Databse
 export async function GET() {
   try {
-    const { data, error } = await supabase
-      .from('conversations')
-      .select('*')
-      .order('updated_at', { ascending: false });
-
-    if (error) throw error;
-
+    const conversations = await getConversations();
     return NextResponse.json({
       success: true,
-      conversations: data || [],
+      conversations,
     });
   } catch (error) {
     return NextResponse.json(
@@ -29,28 +25,13 @@ export async function GET() {
   }
 }
 
+//Route to Create a new Conversation
 export async function POST() {
   try {
-    const userId = 'demo-user-id';
-
-    const { data, error } = await supabase
-      .from('conversations')
-      .insert([
-        {
-          user_id: userId,
-          title: 'New Conversation',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        },
-      ])
-      .select()
-      .single();
-
-    if (error) throw error;
-
+    const conversation = await createConversation();
     return NextResponse.json({
       success: true,
-      conversation: data,
+      conversation,
     });
   } catch (error) {
     return NextResponse.json(
@@ -60,17 +41,21 @@ export async function POST() {
   }
 }
 
+
+//Route to Delete a Conversation by ID
 export async function DELETE(request) {
   try {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
 
-    const { error } = await supabase
-      .from('conversations')
-      .delete()
-      .eq('id', id);
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'Conversation ID is required' },
+        { status: 400 }
+      );
+    }
 
-    if (error) throw error;
+    await deleteConversation(id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

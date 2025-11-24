@@ -75,7 +75,7 @@ body,
 
 @layer components {
   .chat-message {
-    @apply text-[15px] leading-7;
+    @apply text-[20px] leading-7;
 
     p {
       margin-bottom: 1rem;

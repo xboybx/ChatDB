@@ -1,0 +1,47 @@
+const apiRequest = async (url, options = {}) => {
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || `HTTP error! status: ${response.status}`);
+        }
+        return data;
+    } catch (error) {
+        console.error(`API request to ${url} failed:`, error);
+        return { success: false, error: error.message };
+    }
+};
+
+export const getConversations = () => apiRequest("/api/conversations");
+
+export const getMessages = (conversationId) =>
+    apiRequest(`/api/messages?conversationId=${conversationId}`);
+
+export const getDataset = (conversationId) =>
+    apiRequest(`/api/dataset?conversationId=${conversationId}`);
+
+export const createConversation = () =>
+    apiRequest("/api/conversations", { method: "POST" });
+
+export const deleteConversation = (conversationId) =>
+    apiRequest(`/api/conversations?id=${conversationId}`, { method: "DELETE" });
+
+export const sendMessage = (body) =>
+    apiRequest("/api/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });
+
+export const uploadDataset = (formData) =>
+    apiRequest("/api/upload-dataset", {
+        method: "POST",
+        body: formData,
+    });
+
+export const connectDatabase = (body) =>
+    apiRequest("/api/connect-database", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });

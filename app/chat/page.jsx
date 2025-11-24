@@ -12,7 +12,6 @@ import {
   Paperclip,
   Menu,
   X,
-  Plus,
 } from "lucide-react";
 const ChatSidebar = dynamic(
   () => import("@/components/ChatSidebar").then((mod) => mod.ChatSidebar),
@@ -356,7 +355,10 @@ export default function Home() {
         <div className="flex items-center justify-center pt-4">
           <div className="hidden md:flex w-1/2 rounded-3xl items-center justify-between p-2 px-4  border-b border-[hsl(var(--border)))] bg-transparent">
             <h2 className=" font-semibold flex items-center justify-center ">
-              File & DB chat
+              Chat DB
+            </h2>
+            <h2 className="text-[hsl(var(--foreground))] text-xs opacity-70 hidden lg:block ">
+              Upload your DB Connection string to get started
             </h2>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -411,10 +413,8 @@ export default function Home() {
                 </h1>
 
                 <p className="text-[hsl(var(--foreground))] opacity-70 hidden lg:block">
-                  Start a new Chat{" "}
-                  <span className="text-3xl text-white">+</span> & Upload a file
-                  or connect to a database to start asking questions about your
-                  data
+                  Upload a file or connect to a database to start asking
+                  questions about your data
                 </p>
 
                 {activeDataset && (
@@ -457,6 +457,13 @@ export default function Home() {
                   <p className="font-medium mb-2">How to use the app:</p>
                   <ul className="list-disc list-inside space-y-1">
                     <li>
+                      Before Upload Start a new conversation by Clicking{" "}
+                      <span className=" text-red-500 px-2 py-1 rounded-full">
+                        "New Chat +"
+                      </span>{" "}
+                      at top left
+                    </li>
+                    <li>
                       Upload your data files (Excel, CSV, PDF, DOCX) to start a
                       conversation about them.
                     </li>
@@ -468,10 +475,10 @@ export default function Home() {
                       For database connections, you will need to provide the
                       correct connection string.
                       <details className="mt-2">
-                        <summary className="cursor-pointer text-xs opacity-80">
+                        <summary className="cursor-pointer text-xs opacity-80 text-blue-500 underline">
                           Click to see Connection String examples
                         </summary>
-                        <ul className="list-disc list-inside pl-4 mt-1 space-y-1">
+                        <ul className="list-disc list-inside pl-4 mt-1 space-y-1 text-green-500">
                           <li>
                             PostgreSQL:{" "}
                             <code>

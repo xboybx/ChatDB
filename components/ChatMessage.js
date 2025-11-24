@@ -29,13 +29,13 @@ export function ChatMessage({ message }) {
   return (
     <div className={`flex items-start gap-2 sm:gap-4 px-2 sm:px-4 py-6 ${isUser ? 'justify-end' : 'justify-start'} `}>
       {!isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center  bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg ">
+        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center  bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg  ">
           <BrainCog className="w-5 h-5 text-[#4DB33D] dark:text-white" />
         </div>
       )}
       <div
         className={`max-w-[90%] sm:max-w-[85%] md:max-w-[75%] lg:max-w-3xl break-words overflow-x-auto ${isUser
-          ? 'bg-gray-600 dark:bg-[#2d2d2d] text-white rounded-lg p-3' : ''
+          ? 'text-black dark:text-white rounded-lg p-3' : ''
           }`}
       >
         {message.query_command && (
@@ -86,8 +86,8 @@ export function ChatMessage({ message }) {
         </div>
       </div>
       {isUser && (
-        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg">
-          <User className="w-5 h-5 text-[#3F3E42  ] dark:text-white" />
+        <div className="flex-shrink-0 w-8 h-8 rounded-sm flex items-center justify-center bg-white/10 backdrop-blur-sm border border-white/20 shadow-lg bg">
+          <User className="w-5 h-5 text-[#3F3E42] dark:text-white" />
         </div>
       )}
     </div>

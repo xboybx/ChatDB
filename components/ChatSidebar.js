@@ -1,6 +1,6 @@
 'use client';
 
-import { Plus, MessageSquare, Trash2, PanelLeft } from 'lucide-react';
+import { Plus, NotepadText, Trash2, PanelLeft } from 'lucide-react';
 
 export function ChatSidebar({
   conversations,
@@ -38,11 +38,11 @@ export function ChatSidebar({
             key={conv.id}
             onClick={() => onSelectConversation(conv.id)}
             className={`group relative flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer transition-colors mb-1 ${activeConversationId === conv.id
-                ? 'bg-[hsl(var(--sidebar-active))]'
-                : 'hover:bg-[hsl(var(--sidebar-hover))]'
+              ? 'bg-[hsl(var(--sidebar-active))]'
+              : 'hover:bg-[hsl(var(--sidebar-hover))]'
               } ${isCollapsed ? 'justify-center' : ''}`}
           >
-            <MessageSquare className="w-4 h-4 flex-shrink-0" />
+            <NotepadText className="w-4 h-4 flex-shrink-0" />
             {!isCollapsed && <span className="flex-1 text-sm truncate">{conv.title}</span>}
             {!isCollapsed && (
               <button

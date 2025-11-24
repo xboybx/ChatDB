@@ -4,7 +4,7 @@
 -replace or remove dataset on ui feature and mange the active dataset when replaced or deleted and added a new file
 -add loading states on ui
 
---introduce system prompt (d0ne)  
---encrypt the mognostrind in db before saving in db
+
 -add memory to the ai
 --query lang selsction modifiy the button to the button between normal chat with ai or db chat  
+--modularize the chat page jsx code 

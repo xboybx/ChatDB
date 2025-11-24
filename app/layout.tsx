@@ -1,10 +1,13 @@
-
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Fredoka } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const inter = Inter({ subsets: ['latin'] });
+const fredoka = Fredoka({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-fredoka',
+});
 
 export const metadata: Metadata = {
   title: 'AI Data Query Assistant',
@@ -18,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} h-full`}>
+      <body className={`${fredoka.variable} font-sans h-full`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

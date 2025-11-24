@@ -1,10 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+import { getDatasetByConversationId } from '@/lib/database';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,19 +8,21 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const conversationId = searchParams.get('conversationId');
 
-    const { data, error } = await supabase
-      .from('datasets')
-      .select('*')
-      .eq('conversation_id', conversationId)
-      .maybeSingle();
+    if (!conversationId) {
+      return NextResponse.json(
+        { success: false, error: 'conversationId is required' },
+        { status: 400 }
+      );
+    }
 
-    if (error) throw error;
+    const dataset = await getDatasetByConversationId(conversationId);
 
     return NextResponse.json({
       success: true,
-      dataset: data,
+      dataset: dataset,
     });
   } catch (error) {
+    console.error('Error in /api/dataset GET:', error);
     return NextResponse.json(
       { success: false, error: error.message },
       { status: 500 }
