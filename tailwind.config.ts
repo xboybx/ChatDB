@@ -20,7 +20,8 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['var(--font-fredoka)'],
+        sans: ['var(--font-inter)'],
+        fredoka: ['var(--font-fredoka)'],
       },
       mono: ['var(--font-azeret-mono)'],
       colors: {

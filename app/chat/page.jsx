@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
@@ -43,7 +44,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function Home() {
+import { Fredoka } from "next/font/google";
+
+const fredoka = Fredoka({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-fredoka",
+});
+
+function ChatPage() {
   const [conversations, setConversations] = useState([]);
   const [activeConversationId, setActiveConversationId] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -60,29 +69,14 @@ export default function Home() {
   const textareaRef = useRef(null);
   const { theme, toggleTheme } = useTheme();
 
-  //automatically scroll to bottom when new message arrives(recent chat)
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-  //scroll to bottom when messages or thinking indicator changes
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, isThinking]);
 
-  //Loading all the conversations and messages when app loads of a chat
-  useEffect(() => {
-    loadConversations();
-  }, []);
-
-  //load messages and dataset when active conversation changes
-  useEffect(() => {
-    if (activeConversationId) {
-      loadMessages(activeConversationId);
-      loadDataset(activeConversationId);
-    }
-  }, [activeConversationId]);
-
-  //function to load conversations from backend api in chat side bar
   const loadConversations = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -90,8 +84,6 @@ export default function Home() {
       const data = await response.json();
       if (data.success) {
         setConversations(data.conversations);
-        // set first conversation as active if none is active
-        //if conversations exist we take its [id] and give it to activeConversationId state
         if (data.conversations.length > 0 && !activeConversationId) {
           setActiveConversationId(data.conversations[0].id);
         }
@@ -102,7 +94,18 @@ export default function Home() {
       setIsLoading(false);
     }
   }, [activeConversationId]);
-  //function to load messages of a conversation from backend api in the chat area
+
+  useEffect(() => {
+    loadConversations();
+  }, [loadConversations]);
+
+  useEffect(() => {
+    if (activeConversationId) {
+      loadMessages(activeConversationId);
+      loadDataset(activeConversationId);
+    }
+  }, [activeConversationId]);
+
   const loadMessages = async (conversationId) => {
     setIsLoading(true);
     try {
@@ -120,7 +123,6 @@ export default function Home() {
     }
   };
 
-  //function to load dataset of a conversation from backend api in the dataset area
   const loadDataset = async (conversationId) => {
     setIsLoading(true);
     try {
@@ -138,7 +140,6 @@ export default function Home() {
     }
   };
 
-  //function to create a new conversation in backend api in chat side bar
   const handleNewConversation = async () => {
     try {
       const response = await fetch("/api/conversations", {
@@ -156,7 +157,6 @@ export default function Home() {
     }
   };
 
-  //function to delete a conversation from backend api  in chat side bar
   const handleDeleteConversation = async (conversationId) => {
     try {
       const response = await fetch(`/api/conversations?id=${conversationId}`, {
@@ -179,7 +179,6 @@ export default function Home() {
     }
   };
 
-  //in case of no active conversation we create one first before sending message by messaing something in input
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
     if (!activeConversationId) {
@@ -198,20 +197,16 @@ export default function Home() {
     setIsThinking(true);
 
     try {
-      //sending the user message to backend api /api/query to be given to ai
-      //if we upload file only then the datasetId will be present else it will be undefined
-
       const response = await fetch("/api/query", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           conversationId: activeConversationId,
-          message: inputValue, //posting user message to backend api
+          message: inputValue,
           queryLanguage,
-          datasetId: activeDataset?.id, //it is sent only when dataset is is uploaded
+          datasetId: activeDataset?.id,
         }),
       });
-      //after posting the message we get the response from backend api
       const data = await response.json();
       if (data.success) {
         setMessages([...messages, userMessage, data.assistantMessage]);
@@ -270,8 +265,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex h-full overflow-hidden bg-background">
-      {/* Sidebar for desktop */}
+    <div
+      className={`${fredoka.variable} font-fredoka flex h-full overflow-hidden bg-background`}
+    >
       <div
         className={`hidden md:block transition-all duration-300 ease-in-out ${
           isDesktopSidebarCollapsed ? "w-20" : "w-64"
@@ -290,7 +286,6 @@ export default function Home() {
         />
       </div>
 
-      {/* Sidebar for mobile (overlay) */}
       {isSidebarOpen && (
         <div className="md:hidden fixed inset-0 z-20">
           <div
@@ -313,7 +308,6 @@ export default function Home() {
       )}
 
       <div className="flex-1 flex flex-col relative overflow-hidden">
-        {/* Header for mobile */}
         <div className="md:hidden flex items-center justify-between p-2 border-b  border-[hsl(var(--border)))]">
           <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             {isSidebarOpen ? (
@@ -351,7 +345,6 @@ export default function Home() {
           </DropdownMenu>
         </div>
 
-        {/* Header for desktop */}
         <div className="flex items-center justify-center pt-4">
           <div className="hidden md:flex w-1/2 rounded-3xl items-center justify-between p-2 px-4  border-b border-[hsl(var(--border)))] bg-transparent">
             <h2 className=" font-semibold flex items-center justify-center ">
@@ -403,7 +396,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Chat messages area */}
         <div className="flex-1 overflow-y-auto  p-4">
           {messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full px-4 ">
@@ -459,7 +451,7 @@ export default function Home() {
                     <li>
                       Before Upload Start a new conversation by Clicking{" "}
                       <span className=" text-red-500 px-2 py-1 rounded-full">
-                        "New Chat +"
+                        &quot;New Chat +&quot;
                       </span>{" "}
                       at top left
                     </li>
@@ -520,7 +512,6 @@ export default function Home() {
           )}
         </div>
 
-        {/* Input area */}
         <div className="  bg-background ">
           <div className="max-w-3xl mx-auto px-4 py-4">
             <div className="relative flex items-end gap-2 bg-[hsl(var(--message-assistant))] border border-[hsl(var(--input-border))] rounded-3xl px-4 py-3 shadow-sm">
@@ -619,4 +610,8 @@ export default function Home() {
       />
     </div>
   );
+}
+
+export default function Home() {
+  return <ChatPage />;
 }

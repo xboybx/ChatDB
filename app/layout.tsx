@@ -1,12 +1,11 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Fredoka } from 'next/font/google';
+import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const fredoka = Fredoka({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-fredoka',
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -21,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fredoka.variable} font-sans h-full`}>
+      <body className={`${inter.variable} font-sans h-full`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
