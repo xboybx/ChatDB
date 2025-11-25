@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import xlsx from 'xlsx';
-import pdf from 'pdf-parse';
 import mammoth from 'mammoth';
+const { PDFParse } = require('pdf-parse');
 import { createDataset, findOrCreateConversation } from '../../../lib/database';
 
 export const dynamic = 'force-dynamic';
