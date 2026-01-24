@@ -1,0 +1,24 @@
+-when a new chat is begin ,auto converstion in left side tab
+
+-ReDesign ui/ux totally
+
+-need to think if a user gives thier database string with usernaem and password ,its riskky and modtky they wont use the db service of this app.
+
+-implement rag sysytem and use all the paresers with rag and also introduce chunking system to reduce the token usage and also make it efficient
+
+-instead of sending all the sata in the prompt ,send only the required data to the ai
+
+-add turly web search 
+
+- nicely markip the response of the ai in the ui
+
+-Use Langcahin for rag and also use other free models if the main model is overloaded -figure out its logic mainly (if and else)
+
+-use vector database for rag and also use chunking system to reduce the token usage and also make it efficient
+
+--Remove the option of type databse button of mongodb and postgresql
+
+ADD Authentication and user management
+-use Supabase for database storage and authentication
+-understand iam i using any orm or superbase driver for database operations.
+
