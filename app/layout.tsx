@@ -1,11 +1,21 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Montserrat, Fira_Code, Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
-const inter = Inter({
+const sans = Montserrat({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-sans',
+});
+
+const mono = Fira_Code({
+  subsets: ['latin'],
+  variable: '--font-mono',
+});
+
+const darkSans = Inter({
+  subsets: ['latin'],
+  variable: '--font-dark-sans',
 });
 
 export const metadata: Metadata = {
@@ -20,8 +30,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans h-full`}>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className={`${sans.variable} ${mono.variable} ${darkSans.variable} font-sans h-full`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

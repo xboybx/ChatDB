@@ -14,6 +14,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 const ChatSidebar = dynamic(
   () => import("@/components/ChatSidebar").then((mod) => mod.ChatSidebar),
   { ssr: false }
@@ -42,15 +43,11 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
-import { Fredoka } from "next/font/google";
-
-const fredoka = Fredoka({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-fredoka",
-});
 
 function ChatPage() {
   const [conversations, setConversations] = useState([]);
@@ -67,7 +64,7 @@ function ChatPage() {
   const [activeDataset, setActiveDataset] = useState(null);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
-  const { theme, toggleTheme } = useTheme();
+  // const { theme, toggleTheme } = useTheme(); // Handled by ThemeToggle now
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -266,12 +263,11 @@ function ChatPage() {
 
   return (
     <div
-      className={`${fredoka.variable} font-fredoka flex h-full overflow-hidden bg-background`}
+      className="flex h-screen overflow-hidden bg-background font-sans"
     >
       <div
-        className={`hidden md:block transition-all duration-300 ease-in-out ${
-          isDesktopSidebarCollapsed ? "w-20" : "w-64"
-        }`}
+        className={`hidden md:block transition-all duration-300 ease-in-out ${isDesktopSidebarCollapsed ? "w-20" : "w-64"
+          }`}
       >
         <ChatSidebar
           conversations={conversations}
@@ -307,21 +303,21 @@ function ChatPage() {
         </div>
       )}
 
-      <div className="flex-1 flex flex-col relative overflow-hidden">
-        <div className="md:hidden flex items-center justify-between p-2 border-b  border-[hsl(var(--border)))]">
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+      <div className="flex-1 flex flex-col relative overflow-hidden min-h-0">
+        <div className="md:hidden flex items-center justify-between p-2 border-b border-border">
+          <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
             {isSidebarOpen ? (
               <X className="w-6 h-6" />
             ) : (
               <Menu className="w-6 h-6" />
             )}
-          </button>
+          </Button>
           <h2 className="text-lg font-semibold">Chat</h2>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <button className="p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
-                <MoreVertical className="w-5 h-5" />
-              </button>
+              <Button variant="ghost" size="icon" className="hover:bg-sidebar-accent">
+                <MoreVertical className="w-5 h-5 text-foreground" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
@@ -333,31 +329,30 @@ function ChatPage() {
                 Connect Database
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={toggleTheme}>
-                {theme === "dark" ? (
-                  <Sun className="w-4 h-4 mr-2" />
-                ) : (
-                  <Moon className="w-4 h-4 mr-2" />
-                )}
-                {theme === "dark" ? "Light" : "Dark"} Mode
+
+              {/* Wait, I should just use the ThemeToggle component, it is cleaner. */}
+              <DropdownMenuItem asChild>
+                <div className="flex w-full items-center justify-between p-0">
+                  <ThemeToggle />
+                </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
         <div className="flex items-center justify-center pt-4">
-          <div className="hidden md:flex w-1/2 rounded-3xl items-center justify-between p-2 px-4  border-b border-[hsl(var(--border)))] bg-transparent">
-            <h2 className=" font-semibold flex items-center justify-center ">
+          <div className="hidden md:flex w-1/2 rounded-3xl items-center justify-between p-2 px-4 border border-border bg-card shadow-sm">
+            <h2 className="font-semibold flex items-center justify-center text-primary">
               Chat DB
             </h2>
-            <h2 className="text-[hsl(var(--foreground))] text-xs opacity-70 hidden lg:block ">
-              Upload your DB Connection string to get started
+            <h2 className="text-foreground text-xs opacity-70 hidden lg:block">
+              Upload your data to get started
             </h2>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
-                  <MoreVertical className="w-5 h-5" />
-                </button>
+                <Button variant="ghost" size="icon" className="hover:bg-muted">
+                  <MoreVertical className="w-5 h-5 text-foreground" />
+                </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
@@ -375,21 +370,18 @@ function ChatPage() {
                       queryLanguage === "auto"
                         ? "sql"
                         : queryLanguage === "sql"
-                        ? "mongodb"
-                        : "auto"
+                          ? "mongodb"
+                          : "auto"
                     )
                   }
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Query: {queryLanguage}
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={toggleTheme}>
-                  {theme === "dark" ? (
-                    <Sun className="w-4 h-4 mr-2" />
-                  ) : (
-                    <Moon className="w-4 h-4 mr-2" />
-                  )}
-                  {theme === "dark" ? "Light" : "Dark"} Mode
+                <DropdownMenuItem asChild>
+                  <div onClick={(e) => e.preventDefault()} className="w-full">
+                    <ThemeToggle />
+                  </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -404,25 +396,25 @@ function ChatPage() {
                   AI Data Query Assistant
                 </h1>
 
-                <p className="text-[hsl(var(--foreground))] opacity-70 hidden lg:block">
-                  Upload a file or connect to a database to start asking
+                <p className="text-foreground opacity-70 hidden lg:block">
+                  Upload a file to start asking
                   questions about your data
                 </p>
 
                 {activeDataset && (
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[hsl(var(--message-assistant))] border border-[hsl(var(--border))] text-sm">
-                    <div className="w-2 h-2 rounded-full bg-[#10a37f]"></div>
-                    <span className="font-medium">{activeDataset.name}</span>
-                    <span className="opacity-60">({activeDataset.type})</span>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/10 border border-secondary/20 text-sm">
+                    <div className="w-2 h-2 rounded-full bg-primary"></div>
+                    <span className="font-medium text-foreground">{activeDataset.name}</span>
+                    <span className="opacity-60 text-foreground">({activeDataset.type})</span>
                   </div>
                 )}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-8 max-w-2xl mx-auto">
                   <button
                     onClick={() => setShowUploadDialog(true)}
-                    className="flex items-center gap-3 p-4 rounded-xl border border-[hsl(var(--border))] hover:bg-[hsl(var(--sidebar-hover))] transition-colors text-left"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:bg-muted/50 transition-colors text-left group"
                   >
-                    <Upload className="w-5 h-5" />
+                    <Upload className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
                     <div>
                       <div className="font-medium text-sm">Upload File</div>
                       <div className="text-xs opacity-60">
@@ -432,9 +424,9 @@ function ChatPage() {
                   </button>
                   <button
                     onClick={() => setShowUploadDialog(true)}
-                    className="flex items-center gap-3 p-4 rounded-xl border border-[hsl(var(--border))] hover:bg-[hsl(var(--sidebar-hover))] transition-colors text-left"
+                    className="flex items-center gap-3 p-4 rounded-xl border border-border hover:bg-muted/50 transition-colors text-left group"
                   >
-                    <Database className="w-5 h-5" />
+                    <Database className="w-5 h-5 text-secondary group-hover:scale-110 transition-transform" />
                     <div>
                       <div className="font-medium text-sm">
                         Connect Database
@@ -514,22 +506,23 @@ function ChatPage() {
 
         <div className="  bg-background ">
           <div className="max-w-3xl mx-auto px-4 py-4">
-            <div className="relative flex items-end gap-2 bg-[hsl(var(--message-assistant))] border border-[hsl(var(--input-border))] rounded-3xl px-4 py-3 shadow-sm">
-              <button
+            <div className="relative flex items-end gap-2 bg-card border border-input rounded-3xl px-4 py-3 shadow-md focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setShowUploadDialog(true)}
-                className="hidden md:flex flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors "
+                className="hidden md:flex flex-shrink-0 hover:bg-muted"
               >
-                <Paperclip className="w-5 h-5" />
-              </button>
+                <Paperclip className="w-5 h-5 text-foreground/60" />
+              </Button>
 
-              <textarea
+              <Textarea
                 ref={textareaRef}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Message AI Data Assistant..."
-                className="flex-1 bg-transparent outline-none resize-none max-h-[200px] py-1.5"
-                style={{ minHeight: "24px" }}
+                className="flex-1 bg-transparent border-none focus-visible:ring-0 resize-none max-h-[200px] py-1.5 min-h-[24px]"
                 rows={1}
                 disabled={isThinking}
               />
@@ -537,9 +530,9 @@ function ChatPage() {
               <div className="flex items-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex-shrink-0 p-1.5 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors">
-                      <Settings className="w-5 h-5" />
-                    </button>
+                    <Button variant="ghost" size="icon" className="hover:bg-muted">
+                      <Settings className="w-5 h-5 text-foreground/60" />
+                    </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
                     <DropdownMenuItem onClick={() => setShowUploadDialog(true)}>
@@ -557,37 +550,31 @@ function ChatPage() {
                           queryLanguage === "auto"
                             ? "sql"
                             : queryLanguage === "sql"
-                            ? "mongodb"
-                            : "auto"
+                              ? "mongodb"
+                              : "auto"
                         )
                       }
                     >
                       <Settings className="w-4 h-4 mr-2" />
                       Query: {queryLanguage}
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={toggleTheme}>
-                      {theme === "dark" ? (
-                        <Sun className="w-4 h-4 mr-2" />
-                      ) : (
-                        <Moon className="w-4 h-4 mr-2" />
-                      )}
-                      {theme === "dark" ? "Light" : "Dark"} Mode
+                    <DropdownMenuItem asChild>
+                      <div onClick={(e) => e.preventDefault()} className="w-full">
+                        <ThemeToggle />
+                      </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
 
-              <button
+              <Button
                 onClick={handleSendMessage}
                 disabled={isThinking || !inputValue.trim()}
-                className={`flex-shrink-0 p-1.5 rounded-lg transition-colors ${
-                  inputValue.trim() && !isThinking
-                    ? "bg-[hsl(var(--foreground))] text-background hover:opacity-80"
-                    : "opacity-30 cursor-not-allowed"
-                }`}
+                size="icon"
+                className="flex-shrink-0"
               >
                 <Send className="w-5 h-5" />
-              </button>
+              </Button>
             </div>
 
             {activeDataset && (

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BrainCog, User, ChevronDown, ChevronUp, Copy } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -59,8 +60,9 @@ export function ChatMessage({ message }) {
             )}
           </div>
         )}
-        <div className="chat-message prose prose-sm dark:prose-invert max-w-none">
+        <div className="chat-message prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-pre:p-0">
           <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
             components={{
               code({ node, inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || '');

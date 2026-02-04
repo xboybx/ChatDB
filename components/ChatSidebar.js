@@ -12,19 +12,19 @@ export function ChatSidebar({
   onToggleCollapse,
 }) {
   return (
-    <div className="bg-[hsl(var(--sidebar))] border-r border-[hsl(var(--border))] h-screen flex flex-col w-full">
+    <div className="bg-sidebar border-r border-sidebar-border h-screen flex flex-col w-full">
       <div className="p-2 flex items-center">
         {onToggleCollapse && (
           <button
             onClick={onToggleCollapse}
-            className="p-2 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors"
+            className="p-2 hover:bg-sidebar-accent rounded-lg transition-colors"
           >
-            <PanelLeft className="w-5 h-5" />
+            <PanelLeft className="w-5 h-5 text-sidebar-foreground" />
           </button>
         )}
         <button
           onClick={onNewConversation}
-          className={`flex items-center justify-center gap-2 px-3 py-2 hover:bg-[hsl(var(--sidebar-hover))] rounded-lg transition-colors text-sm font-medium ${isCollapsed ? 'w-full' : 'flex-1 ml-2'
+          className={`flex items-center justify-center gap-2 px-3 py-2 hover:bg-sidebar-accent rounded-lg transition-colors text-sm font-medium text-sidebar-foreground ${isCollapsed ? 'w-full' : 'flex-1 ml-2'
             }`}
         >
           <Plus className="w-4 h-4" />
@@ -37,9 +37,9 @@ export function ChatSidebar({
           <div
             key={conv.id}
             onClick={() => onSelectConversation(conv.id)}
-            className={`group relative flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer transition-colors mb-1 ${activeConversationId === conv.id
-              ? 'bg-[hsl(var(--sidebar-active))]'
-              : 'hover:bg-[hsl(var(--sidebar-hover))]'
+            className={`group relative flex items-center gap-2 px-3 py-2.5 rounded-lg cursor-pointer transition-colors mb-1 text-sidebar-foreground ${activeConversationId === conv.id
+              ? 'bg-sidebar-accent/50'
+              : 'hover:bg-sidebar-accent'
               } ${isCollapsed ? 'justify-center' : ''}`}
           >
             <NotepadText className="w-4 h-4 flex-shrink-0" />
@@ -50,7 +50,7 @@ export function ChatSidebar({
                   e.stopPropagation();
                   onDeleteConversation(conv.id);
                 }}
-                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-[hsl(var(--sidebar-hover))] rounded transition-opacity"
+                className="opacity-0 group-hover:opacity-100 p-1 hover:bg-sidebar-accent/80 rounded transition-opacity"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
