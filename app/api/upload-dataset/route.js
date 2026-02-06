@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import xlsx from 'xlsx';
 import mammoth from 'mammoth';
 const { PDFParse } = require('pdf-parse');
-import { createDataset, findOrCreateConversation } from '../../../lib/database';
+import { createDataset, findOrCreateConversation, storeDocumentChunks } from '../../../lib/database';
 
 export const dynamic = 'force-dynamic';
 
@@ -77,6 +77,7 @@ export async function POST(request) {
       file_data: parsedData,
       created_at: new Date().toISOString(),
     });
+
 
     return NextResponse.json({
       success: true,
