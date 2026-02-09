@@ -21,6 +21,11 @@ const darkSans = Inter({
 export const metadata: Metadata = {
   title: 'AI Data Query Assistant',
   description: 'Ask natural language questions about your data powered by Gemini AI',
+  icons: {
+    icon: '/icon-250.png',
+    shortcut: '/icon-250.png',
+    apple: '/icon-512.png',
+  },
 };
 
 export default function RootLayout({
